@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+   <!-- <link rel="stylesheet" type="text/css" href="css/styles.css"> -->
+</head>
+<body>
+    <nav>
+        <h1 class="title">Prometheus</h1>
+        <ul>
+            <li><a href="calculator">Calculator</a></li>
+            <li><a href="index">Home</a></li>
+            <li><a href="login">Login</a></li>
+            <li><a href="signUp">Sign Up</a></li>
+        </ul>
+    </nav>
+
+    <div class="loginContainer">
+        <form action="/login/authenticate" method="post">
+            <label>Username: <input type="text" name="username" id="username"></label><br>
+            <label id="usernameNotifier" style="visibility: hidden; display: none">Your username is too short.</label><br>
+
+            <label>Password: <input type="password" name="password" id="password"></label>
+            <label id="passwordNotifier" style="visibility: hidden; display: none"></label><br>
+
+            <input type="submit">
+        </form>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>
