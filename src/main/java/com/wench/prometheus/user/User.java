@@ -13,11 +13,8 @@ import javax.persistence.*;
  * @since 2/1/2021
  * */
 @Entity
+@Table(name = "users")
 public class User {
-
-    @Id
-    @Column(unique = true)
-    private long ID;
 
     @Column
     private String firstName;
@@ -26,8 +23,9 @@ public class User {
     private String lastName;
 
     @Column
-    private String nickName;
+    private String displayName;
 
+    @Id
     @Column(unique = true)
     private String userName;
 
@@ -48,15 +46,15 @@ public class User {
      *
      * @param firstName The first name of the User.
      * @param lastName The last name of the User.
-     * @param nickName  The User's nickname.
+     * @param displayName  The User's display name.
      * @param userName The User's login name.
      * @param passWord The User's login password.
      * @param email The User's email (Intended for account recovery).
      */
-    public User(String firstName, String lastName, String nickName,  String userName, String passWord, String email) {
+    public User(String firstName, String lastName, String displayName,  String userName, String passWord, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.nickName = nickName;
+        this.displayName= displayName;
         this.userName = userName;
         this.passWord = passWord;
         this.email = email;
@@ -72,10 +70,10 @@ public class User {
 
     /**
      * This method is used to modify the user's nickname.
-     * @param nickName
+     * @param displayName
      */
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     /**
@@ -95,13 +93,6 @@ public class User {
     }
 
 
-    //Getter Methods
-    /**
-     * @return Returns the Id of the user.
-     * */
-    public long getID() {
-        return ID;
-    }
 
     /**
      * @return Returns the users first name.
@@ -120,8 +111,8 @@ public class User {
     /**
      * @return Returns the users nickname.
      * */
-    public String getNickName() {
-        return nickName;
+    public String getDisplayName() {
+        return displayName;
     }
 
     /**

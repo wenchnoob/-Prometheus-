@@ -8,7 +8,9 @@ public class DataDriver implements Driver {
 
     @Override
     public Connection connect(String url, Properties info) throws SQLException {
-        return null;
+            String connection = "jdbc:mysql://localhost:3306/prometheus";
+            Connection conn = DriverManager.getConnection(connection, "root", "wenchy");
+            return conn;
     }
 
     @Override

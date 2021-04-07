@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>signUp</title>
-    <!-- <link rel="stylesheet" type="text/css" href="css/styles.css"> -->
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
     <nav>
@@ -16,15 +16,22 @@
         </ul>
     </nav>
 
-    <div class="signupContainer">
+    <div class="container signupContainer">
         <form action="signUp/authenticate" method="post">
+
+            <lable>First Name: <input type="text" name="first_name"></lable><br>
+            <lable>Last Name: <input type="text" name="last_name"></lable><br>
+            <lable>Display Name: <input type="text" name="display_name"></lable><br>
+
+            <lable>Email: <input type="email" name="email"></lable><br>
+
             <label>Username: <input type="text" name="username" id="username"></label><br>
             <label id="usernameNotifier" style="visibility: hidden; display: none">Your username is too short.</label><br>
 
             <label>Password: <input type="password" name="password" id="password"></label><br>
             <label id="passwordNotifier" style="visibility: hidden; display: none"></label><br>
 
-            <label>Confirm Password: <input type="password" name="confirmPassword" id="confirmPassword"></label>
+            <label>Confirm Password: <input type="password" name="confirmPassword" id="confirmPassword"></label><br>
             <label id="confirmPasswordNotifier" style="visibility: hidden; display: none">Your passwords do not match.</label><br>
 
             <input type="submit">
