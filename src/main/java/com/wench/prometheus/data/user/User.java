@@ -1,4 +1,4 @@
-package com.wench.prometheus.user;
+package com.wench.prometheus.data.user;
 
 import javax.persistence.*;
 
@@ -16,23 +16,18 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
 
-    @Column
-    private String firstName;
-
-    @Column
-    private String lastName;
-
-    @Column
-    private String displayName;
-
     @Id
     @Column(unique = true)
     private String userName;
 
-    @Column
+    private String firstName;
+
+    private String lastName;
+
+    private String displayName;
+
     private String passWord;
 
-    @Column
     private String email;
 
 

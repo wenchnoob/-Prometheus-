@@ -18,7 +18,7 @@ window.addEventListener("click", listenToClicks, false);
 function solve() {
     const expression = document.getElementById("expression_input").value.replace("+", "plusSign");
     const xhr = new XMLHttpRequest();
-    const message = String.raw`calculator/solve?expression=${expression}`;
+    const message = String.raw`calculator/solve?expression_input=${expression}`;
     xhr.open("GET", message,true);
     xhr.send();
     xhr.onload=function(){

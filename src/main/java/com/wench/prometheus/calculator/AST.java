@@ -10,6 +10,7 @@ public class AST {
     }
 
     public ASTNode getRoot() {
+        if (expression.trim().equals("")) root = new ASTNode(new Token(Double.NaN, Token.Type.NUMBER));
         return root;
     }
 
