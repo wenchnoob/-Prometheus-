@@ -2,7 +2,6 @@ package com.wench.prometheus.services;
 
 import com.wench.prometheus.data.fetchers.CalculationsByUsernameDataFetcher;
 import graphql.GraphQL;
-import graphql.schema.DataFetcher;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
@@ -30,8 +29,10 @@ public class GraphQLProvider {
         this.calculationsByUsernameDataFetcher = calculationsByUsernameDataFetcher;
     }
 
-    //@Value("classpath:schema.graphqls")
-    //private Resource resource;
+
+
+    @Value("classpath:graphql/schema.graphqls")
+    private Resource resource;
 
     @Bean
     public GraphQL graphQL() {
@@ -40,20 +41,8 @@ public class GraphQLProvider {
 
     @PostConstruct
     private void loadSchema() throws IOException {
-        //File schemaFile = resource.getFile();
-        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse("schema {\n" +
-                "    query: Query\n" +
-                "}\n" +
-                "\n" +
-                "type Query {\n" +
-                "    calculationsByUsername(username: String): [Expression]\n" +
-                "}\n" +
-                "\n" +
-                "type Expression {\n" +
-                "    id: Int\n" +
-                "    val: String\n" +
-                "    solution: String\n" +
-                "}");
+        File schemaFile = resource.getFile();
+        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(schemaFile);
         RuntimeWiring wiring = buildRuntimeWiring();
         GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);
         graphQL = GraphQL.newGraphQL(schema).build();
