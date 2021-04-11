@@ -7,7 +7,7 @@ type Query {
 }
 
 type Expression {
-    id: Int
+    id: ID!
     val: String
     solution: String
 }
