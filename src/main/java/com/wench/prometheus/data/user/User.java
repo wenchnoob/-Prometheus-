@@ -1,6 +1,7 @@
 package com.wench.prometheus.data.user;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 /**
@@ -14,7 +15,7 @@ import javax.persistence.*;
  * */
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
 
     @Id
     @Column(unique = true)
@@ -23,8 +24,6 @@ public class User {
     private String firstName;
 
     private String lastName;
-
-    private String displayName;
 
     private String passWord;
 
@@ -49,7 +48,6 @@ public class User {
     public User(String firstName, String lastName, String displayName,  String userName, String passWord, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.displayName= displayName;
         this.userName = userName;
         this.passWord = passWord;
         this.email = email;
@@ -62,14 +60,6 @@ public class User {
     * Last Name
     * User Name
     * */
-
-    /**
-     * This method is used to modify the user's nickname.
-     * @param displayName
-     */
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
 
     /**
      * This method is used to modify the user's nickname.
@@ -87,8 +77,6 @@ public class User {
         this.email = email;
     }
 
-
-
     /**
      * @return Returns the users first name.
      * */
@@ -101,13 +89,6 @@ public class User {
      * */
     public String getLastName() {
         return lastName;
-    }
-
-    /**
-     * @return Returns the users nickname.
-     * */
-    public String getDisplayName() {
-        return displayName;
     }
 
     /**
@@ -129,5 +110,16 @@ public class User {
      * */
     public String getEmail() {
         return email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userName='" + userName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", passWord='" + passWord + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

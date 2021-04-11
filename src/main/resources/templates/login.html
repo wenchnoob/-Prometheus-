@@ -1,30 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-   <!-- <link rel="stylesheet" type="text/css" href="css/styles.css"> -->
+   <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-    <nav>
-        <h1 class="title">Prometheus</h1>
+
+    <nav class="container">
         <ul>
+            <li><a href="signUp">Sign Up</a></li>
+            <li><a href="login">Login</a></li>
+            <li><a href="code">Code</a></li>
             <li><a href="calculator">Calculator</a></li>
             <li><a href="index">Home</a></li>
-            <li><a href="login">Login</a></li>
-            <li><a href="signUp">Sign Up</a></li>
+            <h3>Project Prometheus</h3>
         </ul>
     </nav>
 
-    <div class="loginContainer">
+    <div class="page loginContainer">
         <form action="/login/authenticate" method="post">
+            <h1>Login</h1>
+            <hr>
             <label>Username: <input type="text" name="username" id="username"></label><br>
             <label id="usernameNotifier" style="visibility: hidden; display: none">Your username is too short.</label><br>
 
             <label>Password: <input type="password" name="password" id="password"></label>
             <label id="passwordNotifier" style="visibility: hidden; display: none"></label><br>
 
-            <input type="submit">
+            <div class="clearfix">
+                <button type="button" class="cancelbtn">Cancel</button>
+                <button type="submit" class="submitbtn">Login</button>
+            </div>
         </form>
     </div>
     <script src="js/main.js"></script>

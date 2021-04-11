@@ -2,7 +2,10 @@ package com.wench.prometheus.controllers.web;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class PrimaryEndpoints {
@@ -23,12 +26,19 @@ public class PrimaryEndpoints {
     }
 
     @GetMapping(path="/calculator", produces="text/html")
-    public String calculator() {
+    public String calculator(HttpServletRequest request) {
+
         return "calculator";
     }
 
     @GetMapping(path="/code", produces="text/html")
     public String code() {
         return "ProgLang";
+    }
+
+    @GetMapping(path="/userHome", produces = "text/html")
+    public String userHome(HttpServletRequest request, Model model) {
+        model.addAttribute("user", request.getSession().getAttribute("loggedInUser"));
+        return "userHome";
     }
 }

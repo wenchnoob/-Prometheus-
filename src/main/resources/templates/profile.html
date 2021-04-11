@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Calculator</title>
+    <title>Profile</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
@@ -21,19 +21,13 @@
         </ul>
     </nav>
 
-
-    <div class="page container calcContainer">
-        <div>
-            <input type="text" name="expression_input" id="expression_input"/>
-            <button onclick="solve()">Submit</button>
-        </div>
-
-        <div>
-            <p id="answer_output"></p>
-        </div>
+    <div class="container page">
+        <h1> Profile Page </h1>
+        <label><b>First name:</b><text th:text = "${user.firstName}"></text></label>
+        <label><b>Last name:</b><text th:text = "${user.lastName}"></text></label>
+        <label><b>Email:</b><text th:text = "${user.lastName}"></text></label>
+        <label><b>Username:</b><text th:text = "${user.userName}"></text></label>
+        <label><b>Password:</b><text th:text = "${user.passWord}"></text></label>
     </div>
-
-
-    <script src="js/main.js"></script>
 </body>
 </html>

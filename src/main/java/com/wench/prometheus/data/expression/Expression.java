@@ -4,8 +4,6 @@ package com.wench.prometheus.data.expression;
 import com.wench.prometheus.calculator.AST;
 import com.wench.prometheus.calculator.Calculator;
 import com.wench.prometheus.calculator.InvalidExpressionException;
-import com.wench.prometheus.data.user.User;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 

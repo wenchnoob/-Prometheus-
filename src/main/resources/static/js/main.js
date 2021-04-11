@@ -10,6 +10,20 @@ window.onload = () => {
 
 window.addEventListener("click", listenToClicks, false);
 
+// Borrowed from stackoverflow :) Enables tabs in textareas
+const textareas = document.getElementsByTagName('textarea');
+console.log(textareas);
+const count = textareas.length;
+for(let i=0; i<count; i++){
+    textareas[i].onkeydown = e => {
+        if(e.keyCode===9){
+            var v=this.value,s=this.selectionStart,e=this.selectionEnd;
+            this.value=v.substring(0, s)+'\t'+v.substring(e);
+            this.selectionStart=this.selectionEnd=s+1;
+            return false;
+        }
+    }
+}
 
 /**
  * This function will send the expression to the server to be evaluated

@@ -1,27 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>signUp</title>
+    <title>Sign Up</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-    <nav>
-        <h1 class="title">Prometheus</h1>
+    <nav class="container">
         <ul>
+            <li><a href="signUp">Sign Up</a></li>
+            <li><a href="login">Login</a></li>
+            <li><a href="code">Code</a></li>
             <li><a href="calculator">Calculator</a></li>
             <li><a href="index">Home</a></li>
-            <li><a href="login">Login</a></li>
-            <li><a href="signUp">Sign Up</a></li>
+            <h3>Project Prometheus</h3>
         </ul>
     </nav>
 
-    <div class="container signupContainer">
+    <div class="page container signupContainer">
         <form action="signUp/authenticate" method="post">
-
-            <lable>First Name: <input type="text" name="first_name"></lable><br>
-            <lable>Last Name: <input type="text" name="last_name"></lable><br>
-            <lable>Display Name: <input type="text" name="display_name"></lable><br>
+            <h1>Sign Up</h1>
+            <hr>
+            <label>First Name: <input type="text" name="first_name"></label><br>
+            <label>Last Name: <input type="text" name="last_name"></label><br>
+            <label>Display Name: <input type="text" name="display_name"></label><br>
 
             <lable>Email: <input type="email" name="email"></lable><br>
 
@@ -34,7 +36,10 @@
             <label>Confirm Password: <input type="password" name="confirmPassword" id="confirmPassword"></label><br>
             <label id="confirmPasswordNotifier" style="visibility: hidden; display: none">Your passwords do not match.</label><br>
 
-            <input type="submit">
+            <div class="clearfix">
+                <button type="button" class="cancelbtn">Cancel</button>
+                <button type="submit" class="submitbtn">Sign Up</button>
+            </div>
         </form>
     </div>
     <script src="js/main.js"></script>
