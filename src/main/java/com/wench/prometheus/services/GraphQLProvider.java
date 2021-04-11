@@ -31,7 +31,7 @@ public class GraphQLProvider {
 
 
     // Not working
-    @Value("classpath:graphql/schema.graphqls")
+    @Value("classpath:static/graphql/schema.graphqls")
     private Resource resource;
 
     @Bean
