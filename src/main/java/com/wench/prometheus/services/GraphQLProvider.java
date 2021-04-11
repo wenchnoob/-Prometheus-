@@ -30,8 +30,8 @@ public class GraphQLProvider {
         this.calculationsByUsernameDataFetcher = calculationsByUsernameDataFetcher;
     }
 
-    @Value("classpath:schema.graphqls")
-    private Resource resource;
+    //@Value("classpath:schema.graphqls")
+    //private Resource resource;
 
     @Bean
     public GraphQL graphQL() {
@@ -40,8 +40,20 @@ public class GraphQLProvider {
 
     @PostConstruct
     private void loadSchema() throws IOException {
-        File schemaFile = resource.getFile();
-        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(schemaFile);
+        //File schemaFile = resource.getFile();
+        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse("schema {\n" +
+                "    query: Query\n" +
+                "}\n" +
+                "\n" +
+                "type Query {\n" +
+                "    calculationsByUsername(username: String): [Expression]\n" +
+                "}\n" +
+                "\n" +
+                "type Expression {\n" +
+                "    id: Int\n" +
+                "    val: String\n" +
+                "    solution: String\n" +
+                "}");
         RuntimeWiring wiring = buildRuntimeWiring();
         GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);
         graphQL = GraphQL.newGraphQL(schema).build();
