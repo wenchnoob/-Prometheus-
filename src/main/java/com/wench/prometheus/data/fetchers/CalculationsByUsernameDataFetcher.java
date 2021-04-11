@@ -4,11 +4,9 @@ import com.wench.prometheus.data.expression.Expression;
 import com.wench.prometheus.data.expression.ExpressionRepository;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
-import javassist.expr.Expr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
