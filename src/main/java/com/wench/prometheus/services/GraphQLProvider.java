@@ -55,9 +55,9 @@ public class GraphQLProvider {
     private void loadSchema() throws IOException {
         //File schemaFile = resourceLoader.getResource("classpath*:static/graphql/schema.graphqls").getFile();
         InputStream in = resourceLoader.getResource("classpath*:static/graphql/schema.graphqls").getInputStream();
-        StringBuilder schema = new StringBuilder();
-        while(in.available() > 0)schema.append((char)in.read());
-        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(schema.toString());
+        StringBuilder schemas = new StringBuilder();
+        while(in.available() > 0)schemas.append((char)in.read());
+        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(schemas.toString());
         RuntimeWiring wiring = buildRuntimeWiring();
         GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);
         graphQL = GraphQL.newGraphQL(schema).build();
