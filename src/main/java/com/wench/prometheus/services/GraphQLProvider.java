@@ -76,8 +76,8 @@ public class GraphQLProvider {
        File in = resourceLoader.getResource("classpath*:static/graphql/schema.graphqls").getFile();
        System.out.println(in);
        //while(in.available() > 0) System.out.println((char)in.read());
-        File start = resourceLoader.getResource("classpath:.").getFile();
-        print_dir(start);
+        // File start = resourceLoader.getResource("classpath:.").getFile();
+        //print_dir(start);
     }
 
     private void print_dir(File file) {
