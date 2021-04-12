@@ -68,7 +68,7 @@ public class GraphQLProvider {
     private ApplicationContext applicationContext;
 
     private void walk_file_system() throws IOException {
-        File start = applicationContext.getResource("classpath:.").getFile();
+        File start = applicationContext.getResource("classpath*:.").getFile();
         print_dir(start);
     }
 
