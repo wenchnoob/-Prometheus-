@@ -9,6 +9,7 @@ import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -31,7 +32,10 @@ public class GraphQLProvider {
 
 
     // Not working
-    @Value("classpath:resource/static/graphql/schema.graphqls")
+    //@Value("classpath:resources/static/graphql/schema.graphqls")
+    //private Resource resource;
+
+    @Value("classpath*:.")
     private Resource resource;
 
     @Bean
@@ -39,10 +43,28 @@ public class GraphQLProvider {
         return this.graphQL;
     }
 
+    @Autowired
+    ApplicationContext applicationContext;
+
     @PostConstruct
     private void loadSchema() throws IOException {
-        File schemaFile = resource.getFile();
-        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(schemaFile);
+        System.out.println(applicationContext.getResource("").getFile().toString());
+        //File schemaFile = resource.getFile();
+        System.out.println(new File("./build/resources/").getAbsolutePath());
+        System.out.println(resource.getFile().getAbsolutePath());
+        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse("schema {\n" +
+                "    query: Query\n" +
+                "}\n" +
+                "\n" +
+                "type Query {\n" +
+                "    calculationsByUsername(username: String): [Expression]\n" +
+                "}\n" +
+                "\n" +
+                "type Expression {\n" +
+                "    id: ID!\n" +
+                "    val: String\n" +
+                "    solution: String\n" +
+                "}");
         RuntimeWiring wiring = buildRuntimeWiring();
         GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);
         graphQL = GraphQL.newGraphQL(schema).build();
