@@ -22,12 +22,12 @@ public class AST {
     }
 
     private void insert(Token token) throws InvalidExpressionException {
-
         if (token.type() == Token.Type.EXPRESSION) {
-            ASTNode head = new ASTNode(new Token<String>("()", Token.Type.OPERATOR));
+            ASTNode head = new ASTNode(new Token<>("()", Token.Type.OPERATOR));
             String value = (String)token.value();
             AST temp = new AST(value.substring(1, value.length()-1));
             head.setRight(temp.getRoot());
+
             if (root == null) {
                 this.root = head;
             } else {
@@ -43,35 +43,13 @@ public class AST {
     }
 
     private void insertTo(ASTNode insertionPoint, ASTNode toInsert) throws InvalidExpressionException {
-        if (Calculator.checkPrecedence(insertionPoint.value()).compareTo(Calculator.checkPrecedence(toInsert.value())) >= 0) {
+        if (Calculator.checkPrecedence(insertionPoint.value()).compareTo(Calculator.checkPrecedence(toInsert.value())) > 0) {
             if (toInsert.left() == null) {
                 toInsert.setLeft(insertionPoint);
-
-                ASTNode oldParent = insertionPoint.parent();
-                if (oldParent != null) {
-                    if (oldParent.right() == insertionPoint) {
-                        oldParent.setRight(toInsert);
-                    } else {
-                        oldParent.setLeft(toInsert);
-                    }
-                } else {
-                    this.root = toInsert;
-                    insertionPoint.setParent(toInsert);
-                }
+                insertionLogic(insertionPoint, toInsert);
             } else if (toInsert.right() == null) {
                 toInsert.setRight(insertionPoint);
-
-                ASTNode oldParent = insertionPoint.parent();
-                if (oldParent != null) {
-                    if (oldParent.right() == insertionPoint) {
-                        oldParent.setRight(toInsert);
-                    } else {
-                        oldParent.setLeft(toInsert);
-                    }
-                } else {
-                    this.root = toInsert;
-                    insertionPoint.setParent(toInsert);
-                }
+                insertionLogic(insertionPoint, toInsert);
             } else {
                 insertTo(insertionPoint.right(), toInsert);
             }
@@ -85,6 +63,20 @@ public class AST {
             } else {
                 insertTo(insertionPoint.right(), toInsert);
             }
+        }
+    }
+
+    private void insertionLogic(ASTNode insertionPoint, ASTNode toInsert) {
+        ASTNode oldParent = insertionPoint.parent();
+        if (oldParent != null) {
+            if (oldParent.right() == insertionPoint) {
+                oldParent.setRight(toInsert);
+            } else {
+                oldParent.setLeft(toInsert);
+            }
+        } else {
+            this.root = toInsert;
+            insertionPoint.setParent(toInsert);
         }
     }
 

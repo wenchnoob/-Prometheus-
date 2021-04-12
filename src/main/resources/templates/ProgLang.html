@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Chivo</title>
+    <title>Code!</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
@@ -16,12 +16,14 @@
                    th:text="${session.loggedInUser != null ? 'Profile' : 'Login'}">Login</a></li>
             <li><a href="code">Code</a></li>
             <li><a href="calculator">Calculator</a></li>
-            <li><a href="index">Home</a></li>
+            <li><a href="index"
+                   th:href="@{${session.loggedInUser != null} ? 'userHome' : 'index'}">Home</a></li>
             <h3>Project Prometheus</h3>
         </ul>
     </nav>
 
     <div class="page container">
+        <p>This is not yet implemented, it's just a text area right now.</p>
         <form action="/code/compileRun" method="post">
             <textarea name="codingArea" id="codingArea"
                       placeholder="Click here to begin coding!" cols="30" rows="20"></textarea>

@@ -17,6 +17,7 @@ const count = textareas.length;
 for(let i=0; i<count; i++){
     textareas[i].onkeydown = e => {
         if(e.keyCode===9){
+            e.preventDefault();
             var v=this.value,s=this.selectionStart,e=this.selectionEnd;
             this.value=v.substring(0, s)+'\t'+v.substring(e);
             this.selectionStart=this.selectionEnd=s+1;
@@ -36,7 +37,6 @@ function solve() {
     xhr.open("GET", message,true);
     xhr.send();
     xhr.onload=function(){
-        console.log(this.responseText)
         let answer = JSON.parse(this.responseText).val;
         document.getElementById("answer_output").innerText = answer;
     }

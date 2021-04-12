@@ -16,13 +16,27 @@
                    th:text="${session.loggedInUser != null ? 'Profile' : 'Login'}">Login</a></li>
             <li><a href="code">Code</a></li>
             <li><a href="calculator">Calculator</a></li>
-            <li><a href="index">Home</a></li>
+            <li><a href="index"
+                   th:href="@{${session.loggedInUser != null} ? 'userHome' : 'index'}">Home</a></li>
             <h3>Project Prometheus</h3>
         </ul>
     </nav>
 
 
     <div class="page container calcContainer">
+        <h2>Intro</h2>
+        <p1>This is a general purpose (minimilast) calculator. Expression's are parsed using an
+            <a href="https://github.com/wenchnoob/ExpressionParser/blob/main/Tester.java">abstract syntax tree (AST)</a> and are then
+        evaluated in order using java built ins. Yes, this project is implemented in java. To use this just type in the expression to
+        be evaluated and then hit enter and VOILA!</p1>
+        <h2>Supported Operations</h2>
+        <ul>
+            <li>Addition "+"</li>
+            <li>Subtraction "-"</li>
+            <li>Multiplication "*"</li>
+            <li>Division "/"</li>
+            <li>Exponentiation "**"</li>
+        </ul>
         <div>
             <input type="text" name="expression_input" id="expression_input"/>
             <button onclick="solve()">Submit</button>
@@ -31,6 +45,13 @@
         <div>
             <p id="answer_output"></p>
         </div>
+
+        <br><br>
+        <h2>New!!</h2>
+        <ul>
+            <li>Calculator now supports <bold>spaces</bold>!!</li>
+            <li>Fixed a calculation bug causing incorrect computation of 2 + 3 * 6 / 7.</li>
+        </ul>
     </div>
 
 

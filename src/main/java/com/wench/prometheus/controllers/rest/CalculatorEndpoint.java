@@ -11,28 +11,51 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collector;
 
 @RestController
 @ResponseBody
 public class CalculatorEndpoint {
 
-    private UserRepository userRepository;
     private ExpressionRepository expressionRepository;
 
+    public static final UnaryOperator<String> removeWhiteSpace =
+            str -> str.codePoints()
+                    .boxed()
+                    .filter(code -> !Character.isWhitespace((char)code.intValue()))
+                    .collect(Collector.of(
+                            () -> new String[] {""},
+                            (result, item) -> result[0] += (char) item.intValue(),
+                            (r1, r2) ->  {
+                                r1[0] += r2[0];
+                                return r1; },
+                            r -> r[0]));
+
+    public static final UnaryOperator<String> tryToInt = num -> {
+        int indexOfDecimal = num.indexOf(".");
+        if(indexOfDecimal > -1) {
+            try{
+                if (Integer.parseInt(num.substring(indexOfDecimal+1)) == 0) return num.substring(0, indexOfDecimal);
+            } catch (NumberFormatException ex) { }
+        }
+        return num;
+    };
+
     @Autowired
-    public CalculatorEndpoint(UserRepository userRepository, ExpressionRepository expressionRepository) {
-        this.userRepository = userRepository;
+    public CalculatorEndpoint(ExpressionRepository expressionRepository) {
         this.expressionRepository = expressionRepository;
     }
 
     @GetMapping(path="/calculator/solve", produces="application/json")
     public String solve(@RequestParam String expression_input, HttpServletRequest request) {
-        Object loggedInUser = request.getSession().getAttribute("loggedInUser");
+        expression_input = expression_input.replaceAll("plusSign", "+").transform(removeWhiteSpace);
+        User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
         Expression expression;
         if (loggedInUser == null || loggedInUser.getClass() != User.class)
-            expression = new Expression(expression_input.replaceAll("plusSign", "+"));
-        else expression = new Expression(expression_input.replaceAll("plusSign", "+"), ((User) loggedInUser).getUserName());
+            expression = new Expression(expression_input);
+        else expression = new Expression(expression_input, loggedInUser.getUserName());
         expressionRepository.save(expression);
-        return "{ \"val\": \"" + expression.solution() + "\"}";
+        return "{ \"val\": \"" + expression.solution().transform(tryToInt) + "\"}";
     }
 }

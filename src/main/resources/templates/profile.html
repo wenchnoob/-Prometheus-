@@ -16,7 +16,8 @@
                    th:text="${session.loggedInUser != null ? 'Profile' : 'Login'}">Login</a></li>
             <li><a href="code">Code</a></li>
             <li><a href="calculator">Calculator</a></li>
-            <li><a href="index">Home</a></li>
+            <li><a href="index"
+                   th:href="@{${session.loggedInUser != null} ? 'userHome' : 'index'}">Home</a></li>
             <h3>Project Prometheus</h3>
         </ul>
     </nav>

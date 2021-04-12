@@ -16,10 +16,47 @@
                    th:text="${session.loggedInUser != null ? 'Profile' : 'Login'}">Login</a></li>
             <li><a href="code">Code</a></li>
             <li><a href="calculator">Calculator</a></li>
-            <li><a href="index">Home</a></li>
+            <li><a href="index"
+                   th:href="@{${session.loggedInUser != null} ? 'userHome' : 'index'}">Home</a></li>
             <h3>Project Prometheus</h3>
         </ul>
     </nav>
+
+    <div class="page container">
+        <h1 th:text="|Welcome to Project Prometheus, ${session.loggedInUser.userName}!|">Welcome to project Prometheus.</h1><br>
+        <p>This is a website created by Wenchy Dutreuil, primarily for fun and personal development (but this might go to the moon so stay tuned).
+            If you have any questions and/or concerns feel free to reach out to me at my email
+            <a href="mailto:wcdutreuil@gmail.com?subject=Prometheus-Calculator">wcdutreuil@gmail.com</a>.</p><br><br>
+
+        <h2>Usage</h2><br>
+        <p>This website (at the moment) is intended to be used as an online calculation resources. Some details are listed below.
+            There will be some extensions to this website in the coming months. Navigate pages using the options in the top right. The should all
+            be pretty self-explanatory. Good luck, and have fun. Don't be shy about sending me feedback
+            <a href="mailto:wcdutreuil@gmail.com?subject=Prometheus-Calculator">wcdutreuil@gmail.com</a>.</p><br><br>
+
+        <h2>Tooling/API's</h2>
+        <ul>
+            <li>Spring Boot</li>
+            <li>MySQL</li>
+            <li>Thymeleaf</li>
+            <li>GraphQL</li>
+        </ul><br>
+
+        <h2>Features</h2>
+        <ul>
+            <li>Can utilize the calculator to perform basic computations.</li>
+            <li>You can sign up for an account.</li>
+            <li>You can login to an existing account.</li>
+            <li>You can logout from an account one you have logged in.</li>
+            <li>ANY THING NOT MENTIONED ABOVE IS NOT YET SUPPORTED.</li>
+        </ul><br>
+
+        <h2>Upcoming Features</h2>
+        <ul>
+            <li>Viewing and editing profile</li>
+            <li>Viewing calculation history</li>
+        </ul>
+    </div>
 
 </body>
 </html>

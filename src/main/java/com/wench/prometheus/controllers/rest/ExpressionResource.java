@@ -20,7 +20,7 @@ public class ExpressionResource {
 
     @PostMapping
     public ResponseEntity<Object> getUserExpressions(@RequestBody String query) {
-        ExecutionResult executionResult = graphQLProvider.graphQL().execute(query);
+        ExecutionResult executionResult = graphQLProvider.getGraphQL().execute(query);
         return new ResponseEntity<>(executionResult, HttpStatus.OK);
     }
 
