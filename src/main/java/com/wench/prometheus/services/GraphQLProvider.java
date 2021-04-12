@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class GraphQLProvider {
@@ -32,25 +34,50 @@ public class GraphQLProvider {
 
 
     // Change classpath to classpath*: when deploying to heroku
-    @Value("classpath*:static/graphql/schema.graphqls")
-    private Resource resource;
+    //@Value("classpath:schema.graphqls")
+    //private Resource resource;
 
     @Bean
     public GraphQL graphQL() {
         return this.graphQL;
     }
 
-    @Autowired
-    ApplicationContext applicationContext;
-
     @PostConstruct
     private void loadSchema() throws IOException {
-        File schemaFile = resource.getFile();
-        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(schemaFile);
+        walk_file_system();
+        //File schemaFile = resource.getFile();
+        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse("schema {\n" +
+                "    query: Query\n" +
+                "}\n" +
+                "\n" +
+                "type Query {\n" +
+                "    calculationsByUsername(username: String): [Expression]\n" +
+                "}\n" +
+                "\n" +
+                "type Expression {\n" +
+                "    id: ID!\n" +
+                "    val: String\n" +
+                "    solution: String\n" +
+                "}");
         RuntimeWiring wiring = buildRuntimeWiring();
         GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);
         graphQL = GraphQL.newGraphQL(schema).build();
     }
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    private void walk_file_system() throws IOException {
+        File start = applicationContext.getResource("classpath*:").getFile();
+        print_dir(start);
+    }
+
+    private void print_dir(File file) {
+         String[] children = file.list();
+         if (children != null) Arrays.stream(children).forEach(child -> print_dir(new File(file.getAbsolutePath() + "/" + child)));
+         System.out.println(file.getAbsolutePath());
+    }
+
 
     private RuntimeWiring buildRuntimeWiring() {
         return RuntimeWiring.newRuntimeWiring()
