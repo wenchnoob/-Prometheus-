@@ -47,45 +47,18 @@ public class GraphQLProvider {
         return this.graphQL;
     }
 
-    @PostConstruct
-    private void loadSchema() throws IOException {
-        walk_file_system();
-        //File schemaFile = resource.getFile();
-        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse("schema {\n" +
-                "    query: Query\n" +
-                "}\n" +
-                "\n" +
-                "type Query {\n" +
-                "    calculationsByUsername(username: String): [Expression]\n" +
-                "}\n" +
-                "\n" +
-                "type Expression {\n" +
-                "    id: ID!\n" +
-                "    val: String\n" +
-                "    solution: String\n" +
-                "}");
-        RuntimeWiring wiring = buildRuntimeWiring();
-        GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);
-        graphQL = GraphQL.newGraphQL(schema).build();
-    }
 
     @Autowired
     private ResourceLoader resourceLoader;
 
-    private void walk_file_system() throws IOException {
-       File in = resourceLoader.getResource("classpath*:static/graphql/schema.graphqls").getFile();
-       System.out.println(in);
-       //while(in.available() > 0) System.out.println((char)in.read());
-        // File start = resourceLoader.getResource("classpath:.").getFile();
-        //print_dir(start);
+    @PostConstruct
+    private void loadSchema() throws IOException {
+        File schemaFile = resourceLoader.getResource("classpath*:static/graphql/schema.graphqls").getFile();
+        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(schemaFile);
+        RuntimeWiring wiring = buildRuntimeWiring();
+        GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);
+        graphQL = GraphQL.newGraphQL(schema).build();
     }
-
-    private void print_dir(File file) {
-         String[] children = file.list();
-         if (children != null) Arrays.stream(children).forEach(child -> print_dir(new File(file.getAbsolutePath() + "/" + child)));
-         System.out.println(file.getAbsolutePath());
-    }
-
 
     private RuntimeWiring buildRuntimeWiring() {
         return RuntimeWiring.newRuntimeWiring()
