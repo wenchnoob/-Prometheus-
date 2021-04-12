@@ -17,6 +17,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
@@ -47,17 +48,10 @@ public class GraphQLProvider {
         return this.graphQL;
     }
 
-
-    @Autowired
-    private ResourceLoader resourceLoader;
-
     @PostConstruct
     private void loadSchema() throws IOException {
-        //File schemaFile = resourceLoader.getResource("classpath*:static/graphql/schema.graphqls").getFile();
-        InputStream in = resourceLoader.getResource("static/graphql/schema.graphqls").getInputStream();
-        StringBuilder schemas = new StringBuilder();
-        while(in.available() > 0)schemas.append((char)in.read());
-        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(schemas.toString());
+        File schemaFile = ResourceUtils.getFile("./src/main/resources/static/graphql/schema.graphqls");
+        TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(schemaFile);
         RuntimeWiring wiring = buildRuntimeWiring();
         GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);
         graphQL = GraphQL.newGraphQL(schema).build();
