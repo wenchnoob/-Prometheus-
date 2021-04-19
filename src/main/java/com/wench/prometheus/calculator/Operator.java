@@ -2,8 +2,8 @@ package com.wench.prometheus.calculator;
 
 public class Operator implements Comparable<Operator> {
 
-    private String value;
-    private Precedence precedence;
+    private final String value;
+    private final Precedence precedence;
 
     public Operator(String value, Precedence precedence) {
         this.value = value;
@@ -27,6 +27,6 @@ public class Operator implements Comparable<Operator> {
     }
 
     enum Precedence {
-        ZERO, FIRST, SECOND, THIRD, FOURTH, NONE;
+        ZERO, FIRST, SECOND, THIRD, FOURTH, NONE
     }
 }

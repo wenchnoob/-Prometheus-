@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ExpressionResource {
 
-    private GraphQLProvider graphQLProvider;
+    private final GraphQLProvider graphQLProvider;
 
     @Autowired
     public ExpressionResource(GraphQLProvider graphQLProvider) {

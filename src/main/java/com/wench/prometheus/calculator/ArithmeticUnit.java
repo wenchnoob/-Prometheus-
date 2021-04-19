@@ -1,15 +1,11 @@
 package com.wench.prometheus.calculator;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ArithmeticUnit {
-    private static ArithmeticUnit self;
 
-    private ArithmeticUnit() {}
-
-    public static ArithmeticUnit getInstance() {
-        if (self == null) self = new ArithmeticUnit();
-        return self;
-    }
-
+    public ArithmeticUnit() {}
 
     public double add(double addend1, double addend2) {
         return addend1 + addend2;

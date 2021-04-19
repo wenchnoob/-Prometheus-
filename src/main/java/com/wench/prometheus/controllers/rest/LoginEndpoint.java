@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 @ResponseBody
 public class LoginEndpoint {
 
-    private LoginService loginService;
+    private final LoginService loginService;
 
     @Autowired
     public LoginEndpoint(LoginService loginService) {

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class SignupEndpoint {
 
-    private SignupService signupService;
+    private final SignupService signupService;
 
     @Autowired
     public SignupEndpoint(SignupService signupService) {

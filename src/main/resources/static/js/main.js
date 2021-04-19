@@ -32,10 +32,12 @@ for(let i=0; i<count; i++){
  * */
 function solve() {
     const expression = document.getElementById("expression_input").value.replace("+", "plusSign");
+
     const xhr = new XMLHttpRequest();
-    const message = String.raw`calculator/solve?expression_input=${expression}`;
-    xhr.open("GET", message,true);
+    xhr.open("POST", "/calculator/solve",true);
+    xhr.setRequestHeader("expression_input", expression);
     xhr.send();
+
     xhr.onload=function(){
         let answer = JSON.parse(this.responseText).val;
         document.getElementById("answer_output").innerText = answer;

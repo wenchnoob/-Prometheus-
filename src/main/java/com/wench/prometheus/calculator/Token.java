@@ -2,8 +2,8 @@ package com.wench.prometheus.calculator;
 
 public class Token<T> {
 
-    private Type type;
-    private T value;
+    private final Type type;
+    private final T value;
 
     public Token(T value, Type type) {
         this.value = value;
@@ -30,7 +30,7 @@ public class Token<T> {
     }
 
     enum Type {
-        NUMBER, OPERATOR, EXPRESSION;
+        NUMBER, OPERATOR, EXPRESSION
     }
 
 }

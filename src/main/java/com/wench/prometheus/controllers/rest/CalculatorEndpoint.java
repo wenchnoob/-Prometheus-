@@ -1,16 +1,18 @@
 package com.wench.prometheus.controllers.rest;
 
+import com.wench.prometheus.calculator.AST;
+import com.wench.prometheus.calculator.Calculator;
+import com.wench.prometheus.calculator.InvalidExpressionException;
 import com.wench.prometheus.data.expression.Expression;
 import com.wench.prometheus.data.expression.ExpressionRepository;
 import com.wench.prometheus.data.user.User;
-import com.wench.prometheus.data.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collector;
 
@@ -18,7 +20,8 @@ import java.util.stream.Collector;
 @ResponseBody
 public class CalculatorEndpoint {
 
-    private ExpressionRepository expressionRepository;
+    private final ExpressionRepository expressionRepository;
+    private final Calculator calculator;
 
     public static final UnaryOperator<String> removeWhiteSpace =
             str -> str.codePoints()
@@ -43,18 +46,16 @@ public class CalculatorEndpoint {
     };
 
     @Autowired
-    public CalculatorEndpoint(ExpressionRepository expressionRepository) {
+    public CalculatorEndpoint(ExpressionRepository expressionRepository, Calculator calculator) {
         this.expressionRepository = expressionRepository;
+        this.calculator = calculator;
     }
 
-    @GetMapping(path="/calculator/solve", produces="application/json")
-    public String solve(@RequestParam String expression_input, HttpServletRequest request) {
+    @PostMapping(path="/calculator/solve", produces="application/json")
+    public String solve(@RequestHeader String expression_input, HttpServletRequest request) {
         expression_input = expression_input.replaceAll("plusSign", "+").transform(removeWhiteSpace);
         User loggedInUser = (User)request.getSession().getAttribute("loggedInUser");
-        Expression expression;
-        if (loggedInUser == null || loggedInUser.getClass() != User.class)
-            expression = new Expression(expression_input);
-        else expression = new Expression(expression_input, loggedInUser.getUserName());
+        Expression expression = new Expression(calculator, expression_input, loggedInUser == null? null: loggedInUser.getUserName());
         expressionRepository.save(expression);
         return "{ \"val\": \"" + expression.solution().transform(tryToInt) + "\"}";
     }

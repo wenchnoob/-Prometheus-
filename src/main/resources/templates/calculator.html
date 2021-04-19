@@ -14,6 +14,7 @@
             <li><a href="login"
                    th:href="@{${session.loggedInUser != null} ? 'viewProfile' : 'login'}"
                    th:text="${session.loggedInUser != null ? 'Profile' : 'Login'}">Login</a></li>
+            <li th:if="${session.loggedInUser != null}"><a href="viewCalculations">Calculations</a></li>
             <li><a href="code">Code</a></li>
             <li><a href="calculator">Calculator</a></li>
             <li><a href="index"

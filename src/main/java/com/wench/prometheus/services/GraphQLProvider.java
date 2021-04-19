@@ -24,7 +24,7 @@ public class GraphQLProvider {
     @Value("${path-to-schema}")
     private String pathToSchema;
 
-    private CalculationsByUsernameDataFetcher calculationsByUsernameDataFetcher;
+    private final CalculationsByUsernameDataFetcher calculationsByUsernameDataFetcher;
 
     @Autowired
     public GraphQLProvider(CalculationsByUsernameDataFetcher calculationsByUsernameDataFetcher) {

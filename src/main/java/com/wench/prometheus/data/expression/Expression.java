@@ -26,7 +26,7 @@ public class Expression {
 
     @Column (name = "expression")
     private final String val;
-    private final String solution;
+    private String solution;
     private final String username;
 
     public Expression() {
@@ -43,29 +43,14 @@ public class Expression {
      * @version 1
      * @since 2/2/2021
      * */
-    public Expression(String val) {
+    public Expression(Calculator calculator, String val, String username) {
         this.id = 0;
-        String solution1;
         this.val = val;
         try {
-            solution1 = String.valueOf(new Calculator().solve(new AST(val)));
+            solution = String.valueOf(calculator.solve(new AST(val)));
         } catch (InvalidExpressionException ex) {
-            solution1 = "Invalid expression!";
+            solution = "Invalid expression!";
         }
-        this.solution = solution1;
-        this.username = null;
-    }
-
-    public Expression(String val, String username) {
-        this.id = 0;
-        String solution1;
-        this.val = val;
-        try {
-            solution1 = String.valueOf(new Calculator().solve(new AST(val)));
-        } catch (InvalidExpressionException ex) {
-            solution1 = "Invalid expression!";
-        }
-        this.solution = solution1;
         this.username = username;
     }
 

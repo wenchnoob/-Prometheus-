@@ -1,12 +1,21 @@
 package com.wench.prometheus.calculator;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
 import java.util.*;
 
+@Component
 public class Calculator {
-    private final static Set<Operator> supportedOperators = new HashSet<Operator>();
-    private ArithmeticUnit au = ArithmeticUnit.getInstance();
 
+    private final static Set<Operator> supportedOperators = new HashSet<>();
+    private final ArithmeticUnit au;
 
+    @Autowired
+    public Calculator(ArithmeticUnit au) {
+        this.au = au;
+    }
 
     static {
         supportedOperators.add(new Operator("()", Operator.Precedence.NONE));
@@ -27,7 +36,7 @@ public class Calculator {
     public static Operator.Precedence checkPrecedence(Token token) throws InvalidExpressionException {
         if (token.value().getClass() == Double.class) return Operator.Precedence.NONE;
         for (Operator op: supportedOperators)
-            if (op.value().equals((String)token.value())) return op.precedence();
+            if (op.value().equals(token.value())) return op.precedence();
         throw new InvalidExpressionException("There is an invalid operator in your expression!");
     }
 
@@ -44,6 +53,7 @@ public class Calculator {
 
     public void evalNode (ASTNode node) {
         if (node == null || node.value().type() == Token.Type.NUMBER) return;
+
 
         evalNode(node.left());
         evalNode(node.right());
@@ -63,8 +73,9 @@ public class Calculator {
         } else {
             if (node.left() != null && node.right() != null) {
                 Operator op = getOperator((String)(node.value().value()));
+                System.out.println(node.left.value.value() + " " + op.value() + " " + node.right.value.value());
                 Double ans = binaryEval(op, (Double)node.left().value().value(), (Double)node.right().value().value());
-                node.setValue(new Token<Double>(ans, Token.Type.NUMBER));
+                node.setValue(new Token<>(ans, Token.Type.NUMBER));
             }
 
         }

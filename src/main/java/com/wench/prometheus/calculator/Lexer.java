@@ -54,13 +54,12 @@ public class Lexer {
         }
         try {
             value.append(expression.charAt(position++));
-        } catch (IndexOutOfBoundsException ex) {};
+        } catch (IndexOutOfBoundsException ex) {}
 
         return new Token<String>(value.toString(), Token.Type.EXPRESSION);
     }
 
     public boolean hasMoreTokens() {
-        if (position >= expression.length()) return false;
-        return true;
+        return position < expression.length();
     }
 }

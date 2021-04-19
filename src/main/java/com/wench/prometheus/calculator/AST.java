@@ -43,7 +43,7 @@ public class AST {
     }
 
     private void insertTo(ASTNode insertionPoint, ASTNode toInsert) throws InvalidExpressionException {
-        if (Calculator.checkPrecedence(insertionPoint.value()).compareTo(Calculator.checkPrecedence(toInsert.value())) > 0) {
+        if (Calculator.checkPrecedence(insertionPoint.value()).compareTo(Calculator.checkPrecedence(toInsert.value())) >= 0) {
             if (toInsert.left() == null) {
                 toInsert.setLeft(insertionPoint);
                 insertionLogic(insertionPoint, toInsert);
