@@ -34,7 +34,7 @@ function solve() {
     const expression = document.getElementById("expression_input").value.replace("+", "plusSign");
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/calculator/solve",true);
+    xhr.open("POST", "/calculator/v2/solve",true);
     xhr.setRequestHeader("expression_input", expression);
     xhr.send();
 

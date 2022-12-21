@@ -6,6 +6,8 @@ import com.wench.prometheus.calculator.InvalidExpressionException;
 import com.wench.prometheus.data.expression.Expression;
 import com.wench.prometheus.data.expression.ExpressionRepository;
 import com.wench.prometheus.data.user.User;
+import com.wench.prometheus.lang.interpreter.ExpressionInterpreter;
+import com.wench.prometheus.lang.parser.ASTNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,5 +60,13 @@ public class CalculatorEndpoint {
         Expression expression = new Expression(calculator, expression_input, loggedInUser == null? null: loggedInUser.getUserName());
         expressionRepository.save(expression);
         return "{ \"val\": \"" + expression.solution().transform(tryToInt) + "\"}";
+    }
+
+    @PostMapping(path="/calculator/v2/solve", produces="application/json")
+    public String solve_v2(@RequestHeader String expression_input, HttpServletRequest request) {
+        expression_input = expression_input.replaceAll("plusSign", "+");
+        ExpressionInterpreter exp = new ExpressionInterpreter();
+        ASTNode res = exp.interpret(expression_input);
+        return "{ \"val\": \"" + res.value() + "\"}";
     }
 }
